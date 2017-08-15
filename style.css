@@ -1,0 +1,89 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    background: url("images/background.png") no-repeat center center fixed;
+    background-size: cover;
+}
+body {
+    font-family: 'Lato', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+.clearfix {
+    clear: both;
+}
+#calculator {
+    position: absolute;
+    background: linear-gradient(-45deg, #cc99ff, #6600cc);
+    width: 400px;
+    height: 510px;
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+.top-edge {
+    background-color: #6600cc;
+    height: 10px;
+}
+#history {
+    overflow: hidden;
+    height: 50px;
+    color: white;
+    text-align: right;
+    padding: 10px;
+    font-size: 140%;
+    font-style: italic; 
+}
+#calculation {
+    height: 70px;
+    color: white;
+    font-weight: 100;
+    font-size: 250%;
+    padding: 10px;
+    text-align: right;
+    overflow: auto;
+}
+.operations {
+    background-color: rgba(51, 0, 153, 0.2);
+}
+#delete, #clearAll {
+    font-size: 150%;
+}
+.operations, .numbers {
+    background-color: none;
+    border: 0;
+    box-shadow: 0;
+    color: white;
+    float: left;
+    font-size: 200%;
+    font-weight: 100 !important;
+    width: 100px;
+    height: 76px;
+    text-align: center;
+    padding: 16px;
+    transition: background-color 1s;
+}
+.numbers, #delete, #dot {
+    background-color: rgba(51, 0, 153, 0.3);
+    transition: background-color 1s;
+}
+.numbers:hover {
+    background-color: rgba(51, 0, 153, 0.8);
+}
+.operations:hover, #delete:hover, #dot:hover {
+    background-color: rgba(51, 0, 153, 0.5);
+}
+#equal:hover {
+    background-color: orangered;
+}
+.bottom-edge {
+    height: 10px;
+    background-color: #cc99ff;
+}
+
+
+
