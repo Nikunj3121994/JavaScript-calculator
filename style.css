@@ -85,7 +85,7 @@ body {
     background-color: #cc99ff;
 }
 
-@media screen (max-width: 500px) {
+@media screen and (max-width: 500px) {
     .top-edge, .bottom-edge {
         max-height: 2.5%;
     }
