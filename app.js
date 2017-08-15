@@ -27,7 +27,7 @@ window.onload = function () {
                 case '±':
                     value = '';
                     if(calculation !== '') {
-                        topScreen = 'negate(' + calculation + ')'; 
+                        topScreen = 'negate(' + parseFloat(calculation) + ')'; 
                         calculation = -parseFloat(calculation);
                         bottomScreen = calculation;
                     } 
@@ -36,7 +36,7 @@ window.onload = function () {
                 case 'x<sup>2</sup>':
                     if(calculation !== '') {
                         value = '';
-                        topScreen = 'sqr(' + calculation + ')';
+                        topScreen = 'sqr(' + parseFloat(calculation) + ')';
                         calculation = parseFloat(calculation) * parseFloat(calculation);
                         bottomScreen = calculation;
                     } else {
@@ -45,15 +45,15 @@ window.onload = function () {
                     break;
                     //******************************DIVISION********************************************
                 case '÷':
+                    value = '/';
                     if(typeof calculation !== 'string') {
                         calculation = calculation.toString();
                     }
-                    if(calculation.charAt(calculation.length - 1) === '/' || calculation === '') {  
+                    if(calculation.search(/\/$/) > 0 || calculation === '') {  
                         value = '';
-                    } else if (calculation.charAt(calculation.length - 1) === '+' || calculation.charAt(calculation.length - 1) === '-' || calculation.charAt(calculation.length - 1) === '*' || calculation.charAt(calculation.length - 1) === '=') {
+                    } else if (calculation.search(/\W$/) > 0) {
                         calculation = calculation.replace(/.$/, '/');
                         topScreen = calculation;
-                        value = '';
                     } else {
                         value = '/';
                         calculation += value;
@@ -62,15 +62,15 @@ window.onload = function () {
                     break;
                     //**********************MULTIPLICATION************************************************
                 case '×':
+                    value = '*';
                     if(typeof calculation !== 'string') {
                         calculation = calculation.toString();
                     }
-                    if(calculation.charAt(calculation.length - 1) === '*' || calculation === '') {  
+                    if(calculation.search(/\*$/) > 0 || calculation === '') {  
                         value = '';
-                    } else if (calculation.charAt(calculation.length - 1) === '+' || calculation.charAt(calculation.length - 1) === '-' || calculation.charAt(calculation.length - 1) === '/' || calculation.charAt(calculation.length - 1) === '=') {
+                    } else if (calculation.search(/\W$/) > 0) {
                         calculation = calculation.replace(/.$/, '*');
-                        topScreen = calculation;
-                        value = '';     
+                        topScreen = calculation;  
                     } else {
                         value = '*';
                         calculation += value;
@@ -82,12 +82,11 @@ window.onload = function () {
                     if(typeof calculation !== 'string') {
                         calculation = calculation.toString();
                     }
-                    if(calculation.charAt(calculation.length - 1) === '+' || calculation === '') {  
+                    if(calculation.search(/\+$/) > 0 || calculation === '') {  
                         value = '';
-                    } else if (calculation.charAt(calculation.length - 1) === '*' || calculation.charAt(calculation.length - 1) === '-' || calculation.charAt(calculation.length - 1) === '/' || calculation.charAt(calculation.length - 1) === '=') {
+                    } else if (calculation.search(/\W$/) > 0) {
                         calculation = calculation.replace(/.$/, '+');
-                        topScreen = calculation;
-                        value = '';        
+                        topScreen = calculation;      
                     } else {
                         value = '+';
                         calculation += value;
@@ -99,12 +98,11 @@ window.onload = function () {
                     if(typeof calculation !== 'string') {
                         calculation = calculation.toString();
                     }
-                    if(calculation.charAt(calculation.length - 1) === '-' || calculation === '') {  
+                    if(calculation.search(/-$/) > 0 || calculation === '') {  
                         value = '';
-                    } else if (calculation.charAt(calculation.length - 1) === '*' || calculation.charAt(calculation.length - 1) === '+' || calculation.charAt(calculation.length - 1) === '/' || calculation.charAt(calculation.length - 1) === '=') {
+                    } else if (calculation.search(/\W$/) > 0) {
                         calculation = calculation.replace(/.$/, '-');
-                        topScreen = calculation;
-                        value = '';     
+                        topScreen = calculation;    
                     } else {
                         value = '-';
                         calculation += value;
@@ -127,26 +125,27 @@ window.onload = function () {
                     break;
                     //******************************DOT**************************************************
                 case '.':
-                    calculation = calculation.toString();
-                    if(calculation.charAt(calculation.length - 1) === '.' || calculation === '') {
-                        value = '';
-                    } else if (calculation.indexOf('.') > 0) {
-                        value = '';
-                    } else if (calculation.search(/\*\+\-\//g) !== -1) {
-                        value = '.';
+                    if(typeof calculation !== "string") {
+                        calculation = calculation.toString();
                     }
+                    if(calculation.search(/\.$/) > 0 || calculation.search(/\W$/) > 0 || calculation === '') {
+                        value = '';
+                    } else {
+                        calculation += value;
+                        topScreen += value;
+                        bottomScreen += value;
+                    } 
+                    
                     break;
                      //******************************EQUAL**************************************************
                 case '=':
                     if(typeof calculation !== 'string') {
                         calculation = calculation.toString(); 
                     }
-                    if(calculation.charAt(calculation.length - 1) === '=' || calculation === '') {
+                    if(calculation.search(/=$/) > 0 || calculation === '' || calculation.search(/\W$/) > 0) {
                         value = '';
-                    } else if(calculation.charAt(calculation.length - 1) === '*' || calculation.charAt(calculation.length - 1) === '/' || calculation.charAt(calculation.length - 1) === '+' || calculation.charAt(calculation.length - 1) === '-') {
-                        value = '';  
                     } else {
-                        if(topScreen.charAt(topScreen.length - 1) !== '=') {
+                        if(topScreen.search(/=$/) < 0) {
                             topScreen += value;
                             value = '';
                             if((eval(calculation).toString()).match(/\.\d+$/) === null) {
@@ -154,6 +153,7 @@ window.onload = function () {
                                 bottomScreen = calculation;
                             } else {
                                 calculation = parseFloat(eval(calculation)).toFixed(8);
+                                calculation = calculation.replace(/0+$/, "");
                                 bottomScreen = calculation; 
                             }
 
@@ -161,6 +161,7 @@ window.onload = function () {
                             value = '';
                             if((eval(calculation).toString()).match(/\.\d+$/) === null) {
                                 calculation = eval(calculation);
+                                calculation = calculation.replace(/0+$/, "");
                                 bottomScreen = calculation;
                             } else {
                                 calculation = parseFloat(eval(calculation)).toFixed(8);
@@ -171,10 +172,10 @@ window.onload = function () {
                     break;
 
                 case '0':
-                    if(calculation.charAt(calculation.length - 1) === '*' || calculation.charAt(calculation.length - 1) === '/' || calculation.charAt(calculation.length - 1) === '+' || calculation.charAt(calculation.length - 1) === '-' ) {
+                    if(calculation.search(/(\+|-|\*|\/)$/) > 0) {
                         bottomScreen = '';
                     } 
-                    if(calculation === '') {
+                    if(calculation === '0' || calculation.match(/[^0-9_\.]0$/) !== null) {
                         value = '';
                     } else {
                         calculation += value;
@@ -187,12 +188,13 @@ window.onload = function () {
                     if(typeof calculation !== 'string') {
                         calculation = calculation.toString(); 
                     }
-
-                    if(calculation.charAt(calculation.length - 1) === '*' || calculation.charAt(calculation.length - 1) === '/' || calculation.charAt(calculation.length - 1) === '+' || calculation.charAt(calculation.length - 1) === '-' ) {
+                    if(calculation.search(/[^0-9_\.]$/) > 0) {
                         bottomScreen = '';
                     } 
-                    if(topScreen.charAt(topScreen.length - 1) === '=') {
-                        value = '';
+                    if(topScreen.search(/=$/) > 0) {
+                        calculation = '';
+                        topScreen = '';
+                        bottomScreen = '';
                     }
                     calculation += value;
                     topScreen += value;
