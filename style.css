@@ -3,8 +3,7 @@
 }
 
 html {
-    background: url("images/background.png") no-repeat center center fixed;
-    background-size: cover;
+    background-color: #6600cc;
 }
 body {
     font-family: 'Lato', sans-serif;
@@ -86,6 +85,10 @@ body {
 }
 
 @media screen and (min-width: 768px) {
+    html {
+    background: url("images/background.png") no-repeat center center fixed;
+    background-size: cover;
+    }
     #calculator {
         height: 530px;
         width: 400px;
