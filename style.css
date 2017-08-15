@@ -17,8 +17,8 @@ body {
 #calculator {
     position: absolute;
     background: linear-gradient(-45deg, #cc99ff, #6600cc);
-    width: 400px;
-    height: 510px;
+    max-width: 400px;
+    max-height: 510px;
     margin: auto;
     top: 0;
     left: 0;
@@ -60,7 +60,7 @@ body {
     color: white;
     float: left;
     font-size: 200%;
-    font-weight: 100 !important;
+    font-weight: 300 !important;
     width: 100px;
     height: 76px;
     text-align: center;
@@ -78,12 +78,28 @@ body {
     background-color: rgba(51, 0, 153, 0.5);
 }
 #equal:hover {
-    background-color: orangered;
+    background-color: green;
 }
 .bottom-edge {
     height: 10px;
     background-color: #cc99ff;
 }
 
+@media screen and (max-width: 500px) {
+    .top-edge, .bottom-edge {
+        max-height: 2.5%;
+    }
+    #history {
+        max-height: 8%;
+    }
+    #calculation {
+        max-height: 14%;
+    }
+    .operations, .numbers {
+        max-height: 15%;
+        max-width: 25%;
+    }
+    
+}
 
 
